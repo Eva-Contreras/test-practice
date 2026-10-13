@@ -1,4 +1,11 @@
-export function ReadingList() {
+import { EmptyState } from "./EmptyState"
+import type { Book } from "../types/book"
+
+type ReadingListProps = {
+  books: Book[]
+}
+
+export function ReadingList({ books }: ReadingListProps) {
   return (
     <section className="reading-list">
       <div className="reading-list__header">
@@ -6,49 +13,27 @@ export function ReadingList() {
         <p>Books currently saved on the reading list.</p>
       </div>
 
-      <ul className="book-grid">
-        <li className="book-card">
-          <h3>Project Hail Mary</h3>
-          <dl className="book-card__meta">
-            <div>
-              <dt>Author</dt>
-              <dd>Andy Weir</dd>
-            </div>
-            <div>
-              <dt>Pages</dt>
-              <dd>496</dd>
-            </div>
-          </dl>
-        </li>
-
-        <li className="book-card">
-          <h3>Circe</h3>
-          <dl className="book-card__meta">
-            <div>
-              <dt>Author</dt>
-              <dd>Madeline Miller</dd>
-            </div>
-            <div>
-              <dt>Pages</dt>
-              <dd>393</dd>
-            </div>
-          </dl>
-        </li>
-
-        <li className="book-card">
-          <h3>The Midnight Library</h3>
-          <dl className="book-card__meta">
-            <div>
-              <dt>Author</dt>
-              <dd>Matt Haig</dd>
-            </div>
-            <div>
-              <dt>Pages</dt>
-              <dd>304</dd>
-            </div>
-          </dl>
-        </li>
-      </ul>
+      {books.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <ul className="book-grid">
+          {books.map((book) => (
+            <li className="book-card" key={book.id}>
+              <h3>{book.title}</h3>
+              <dl className="book-card__meta">
+                <div>
+                  <dt>Author</dt>
+                  <dd>{book.author}</dd>
+                </div>
+                <div>
+                  <dt>Pages</dt>
+                  <dd>{book.pages}</dd>
+                </div>
+              </dl>
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   )
 }
